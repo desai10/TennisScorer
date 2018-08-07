@@ -6,11 +6,17 @@ public class TennisMatch {
     private List<Integer> sets;
     private List<Integer> games;
     private List<Integer> points;
+    private List<Integer> actualPoints;
 
     public TennisMatch() {
         sets = new ArrayList<>(2);
         games = new ArrayList<>(2);
         points = new ArrayList<>(2);
+        actualPoints = new ArrayList<>();
+        actualPoints.add(0);
+        actualPoints.add(15);
+        actualPoints.add(30);
+        actualPoints.add(40);
         for(int i=0;i<2;i++) {
             sets.add(0);
             games.add(0);
@@ -31,7 +37,7 @@ public class TennisMatch {
             }
         }
         else {
-            return Integer.toString(points.get(player));
+            return Integer.toString(actualPoints.get(points.get(player)));
         }
     }
 
@@ -70,15 +76,17 @@ public class TennisMatch {
         return 1 - player;
     }
     private boolean isSetPoint(int player) {
-    	return ((games.get(player)-games.get(1-player)>=1) && games.get(player)>=6);
+    	return ((games.get(player)-games.get(getOtherPlayer(player))>=1) && games.get(player)>=5);
     }
     public void incrementGames(int player) {
         if (isSetPoint(player)) {
             incrementSets(player);
-            games.set(0, 0);
-            games.set(1, 0);
         }
-        games.set(player, games.get(player) + 1);
+        else {
+            games.set(player, games.get(player) + 1);
+            points.set(0, 0);
+            points.set(1, 0);
+        }
     }
 
     public void incrementSets(int player) {

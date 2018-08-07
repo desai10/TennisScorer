@@ -19,7 +19,10 @@ public class TennisMatch {
     }
 
     public void displayScoreBoard(String matchStatus) {
-
+    	System.out.println("Player:   A   B");
+    	System.out.printf("sets:  %4d%4d\n",sets.get(0),sets.get(1));
+    	System.out.printf("games: %4d%4d\n",games.get(0),games.get(1));
+    	System.out.printf("points:%4d%4d\n",points.get(0),points.get(1));
     }
 
     public void processMatch(String matchStatus) {
@@ -30,8 +33,16 @@ public class TennisMatch {
     public void incrementPoints(int player) {
 
     }
-
+    private boolean isSetPoint(int player) {
+    	return ((games.get(player)-games.get(1-player)>=1) && games.get(player)>=6);
+    }
     public void incrementGames(int player) {
+    	if (isSetPoint(player)) {
+    		incrementSets(player);
+    		games.set(0, 0);
+			games.set(1, 0);
+    	}
+    	games.set(player,games.get(player)+1);
 
     }
 

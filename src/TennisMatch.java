@@ -66,15 +66,19 @@ public class TennisMatch {
     private boolean isGamePoint(int player) {
         return points.get(player) - points.get(getOtherPlayer(player)) >= 1 && points.get(player) >= 3;
     }
-
     private int getOtherPlayer(int player) {
         return 1 - player;
     }
-
+    private boolean isSetPoint(int player) {
+    	return ((games.get(player)-games.get(1-player)>=1) && games.get(player)>=6);
+    }
     public void incrementGames(int player) {
-        System.out.println(points);
-        System.out.println(games);
-        System.out.println(sets);
+        if (isSetPoint(player)) {
+            incrementSets(player);
+            games.set(0, 0);
+            games.set(1, 0);
+        }
+        games.set(player, games.get(player) + 1);
     }
 
     public void incrementSets(int player) {

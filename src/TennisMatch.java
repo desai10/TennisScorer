@@ -27,10 +27,10 @@ public class TennisMatch {
     private String getPointsString(int player) {
         if(points.get(0) >= 3 && points.get(1) >= 3) {
             if(points.get(player) == points.get(getOtherPlayer(player))) {
-                return "Duece";
+                return "D";
             }
             if(points.get(player) > points.get(getOtherPlayer(player))) {
-                return "Advantage";
+                return "Adv";
             }
             else {
                 return "-";

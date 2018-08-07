@@ -18,25 +18,76 @@ public class TennisMatch {
         }
     }
 
-    public void displayScoreBoard(String matchStatus) {
+    private String getPointsString(int player) {
+        if(points.get(0) >= 3 && points.get(1) >= 3) {
+            if(points.get(player) == points.get(getOtherPlayer(player))) {
+                return "Duece";
+            }
+            if(points.get(player) > points.get(getOtherPlayer(player))) {
+                return "Advantage";
+            }
+            else {
+                return "-";
+            }
+        }
+        else {
+            return Integer.toString(points.get(player));
+        }
+    }
 
+    public void displayScoreBoard() {
+        System.out.print("Player:\tA\tB\n");
+        System.out.print("Sets:\t"+sets.get(0)+"\t"+sets.get(1)+"\n");
+        System.out.print("Games:\t"+games.get(0)+"\t"+games.get(1)+"\n");
+        System.out.print("Points:\t"+getPointsString(0)+"\t"+getPointsString(1)+"\n");
     }
 
     public void processMatch(String matchStatus) {
-
-        displayScoreBoard(matchStatus);
+        for(int i=0;i<matchStatus.length();i++) {
+            if(matchStatus.charAt(i) == 'A') {
+                incrementPoints(0);
+            }
+            else {
+                incrementPoints(1);
+            }
+        }
+        displayScoreBoard();
     }
 
     public void incrementPoints(int player) {
+        if(isGamePoint(player)) {
+            incrementGames(player);
+        }
+        else {
+            points.set(player, points.get(player) + 1);
+        }
+    }
 
+    private boolean isGamePoint(int player) {
+        return points.get(player) - points.get(getOtherPlayer(player)) >= 1 && points.get(player) >= 3;
+    }
+
+    private int getOtherPlayer(int player) {
+        return 1 - player;
     }
 
     public void incrementGames(int player) {
-
+        System.out.println(points);
+        System.out.println(games);
+        System.out.println(sets);
     }
 
     public void incrementSets(int player) {
+        int set_score = sets.get(player);
+        sets.set(player,set_score+1);
+        updateGamesNPoints();
+    }
 
+    public void updateGamesNPoints(){
+        for(int i=0;i<games.size();i++) {
+            games.set(i, 0);
+            points.set(i, 0);
+        }
     }
 
 }
